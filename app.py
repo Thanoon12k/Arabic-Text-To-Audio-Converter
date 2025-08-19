@@ -50,6 +50,12 @@ def index():
 	return render_template('index.html')
 
 
+@app.get('/tools')
+def tools():
+	clean_old_files()
+	return render_template('tools.html')
+
+
 @app.post('/api/convert')
 def convert_text_to_mp3():
 	clean_old_files()

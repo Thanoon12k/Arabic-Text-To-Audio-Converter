@@ -1,55 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Text → MP3 Converter</title>
+	<title>محول النص إلى صوت MP3</title>
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script>
 		tailwind.config = {
 			theme: {
 				extend: {
-					boxShadow: {
-						glow: '0 0 0 3px rgba(139,92,246,0.3)',
+					colors: {
+						datePalm: '#7a3b2e',
+						tigris: '#1b4965',
+						euphrates: '#62b6cb',
+						sand: '#e9c46a',
+						clay: '#c26d3a'
 					},
+					boxShadow: {
+						glow: '0 0 0 3px rgba(226, 174, 90, 0.35)'
+					}
 				}
 			}
 		}
 	</script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-indigo-600 via-fuchsia-500 to-rose-500 text-white">
-	<div class="min-h-screen flex items-center justify-center p-6">
-		<div class="w-full max-w-2xl">
+<body class="min-h-screen bg-gradient-to-br from-tigris via-euphrates to-sand text-white">
+	<header class="w-full p-4 sm:p-6">
+		<div class="max-w-5xl mx-auto flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<div class="h-10 w-10 rounded-full bg-sand ring-2 ring-white/40 shadow"></div>
+				<div class="text-xl sm:text-2xl font-extrabold tracking-tight">أدوات النهرين</div>
+			</div>
+			<a href="/tools" class="inline-flex items-center gap-2 rounded-xl bg-white/90 hover:bg-white text-tigris font-semibold px-4 py-2 shadow ring-1 ring-black/5 transition">
+				<span>أدوات أخرى</span>
+				<span class="text-lg">›</span>
+			</a>
+		</div>
+	</header>
+
+	<div class="min-h-[70vh] flex items-center justify-center p-6">
+		<div class="w-full max-w-3xl">
 			<div class="backdrop-blur-sm bg-white/10 rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
-				<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Text to MP3</h1>
-				<p class="mt-2 text-white/80">Enter text below and convert it to an MP3 instantly. No login required.</p>
+				<h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">تحويل النص إلى صوت MP3</h1>
+				<p class="mt-2 text-white/85">أدخل النص أدناه وسيتم تحويله مباشرة إلى ملف صوتي. بدون تسجيل دخول.</p>
 
 				<form id="convert-form" class="mt-6" onsubmit="return false;">
-					<label for="text-input" class="sr-only">Text to convert</label>
+					<label for="text-input" class="sr-only">النص المراد تحويله</label>
 					<div class="relative">
-						<textarea id="text-input" rows="8" maxlength="5000" class="w-full rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-fuchsia-400/50 focus:ring-offset-2 focus:ring-offset-transparent p-4 shadow-glow" placeholder="Type or paste your text here (max 5000 characters). العربية مدعومة."></textarea>
-						<div class="absolute bottom-3 right-3 text-xs text-gray-600/80" id="char-counter">0 / 5000</div>
+						<textarea id="text-input" rows="8" maxlength="5000" class="w-full rounded-xl bg-white/90 text-gray-900 placeholder-gray-600 focus:outline-none focus:ring-4 focus:ring-sand/60 focus:ring-offset-2 focus:ring-offset-transparent p-4 shadow-glow" placeholder="اكتب أو الصق النص هنا (حتى ٥٠٠٠ حرف). يدعم العربية."></textarea>
+						<div class="absolute bottom-3 left-3 text-xs text-gray-700/80" id="char-counter">0 / 5000</div>
 					</div>
 
 					<div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
 						<div class="sm:col-span-1">
-							<label for="lang" class="block text-sm font-medium text-white/90 mb-1">Language</label>
-							<select id="lang" class="w-full rounded-xl bg-white/90 text-gray-900 focus:outline-none focus:ring-4 focus:ring-fuchsia-400/50 p-2.5">
-								<option value="en" selected>English (en)</option>
-								<option value="ar">العربية (ar)</option>
+							<label for="lang" class="block text-sm font-medium text-white/90 mb-1">اللغة</label>
+							<select id="lang" class="w-full rounded-xl bg-white/90 text-gray-900 focus:outline-none focus:ring-4 focus:ring-sand/60 p-2.5">
+								<option value="ar" selected>العربية (ar)</option>
+								<option value="en">الإنجليزية (en)</option>
 							</select>
 						</div>
-						<div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
-							<button id="convert-btn" class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-emerald-900 font-semibold px-6 py-3 transition-transform active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-emerald-300/60">
-								<span id="btn-label">Convert to MP3</span>
-								<svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-emerald-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center sm:justify-start gap-3">
+							<button id="convert-btn" class="inline-flex items-center justify-center gap-2 rounded-xl bg-sand hover:bg-amber-300 text-datePalm font-semibold px-6 py-3 transition-transform active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-white/40">
+								<span id="btn-label">حوّل إلى MP3</span>
+								<svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-datePalm" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 									<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
 								</svg>
 							</button>
 
-							<a id="download-link" href="#" class="hidden inline-flex items-center justify-center rounded-xl bg-white text-gray-900 font-semibold px-6 py-3 shadow hover:shadow-md transition" download>
-								Download MP3
+							<a id="download-link" href="#" class="hidden inline-flex items-center justify-center rounded-xl bg-white text-tigris font-semibold px-6 py-3 shadow hover:shadow-md transition" download>
+								تنزيل MP3
 							</a>
 						</div>
 					</div>
@@ -61,10 +81,14 @@
 
 				<div id="alert" class="hidden mt-4 rounded-xl bg-red-500/20 border border-red-400/40 text-red-50 p-3"></div>
 
-				<p class="mt-6 text-xs text-white/70">Files are stored temporarily and deleted automatically after about an hour.</p>
+				<p class="mt-6 text-xs text-white/80">يتم الاحتفاظ بالملفات مؤقتًا وحذفها تلقائيًا بعد نحو ساعة.</p>
 			</div>
 		</div>
 	</div>
+
+	<footer class="py-6 text-center text-white/80">
+		<div class="max-w-5xl mx-auto">مستوحى من حضارات بلاد الرافدين — تصميم حديث وبسيط</div>
+	</footer>
 
 	<script>
 		const textInput = document.getElementById('text-input');
@@ -81,11 +105,11 @@
 		function setLoading(isLoading) {
 			if (isLoading) {
 				convertBtn.disabled = true;
-				btnLabel.textContent = 'Converting...';
+				btnLabel.textContent = 'جاري التحويل...';
 				btnSpinner.classList.remove('hidden');
 			} else {
 				convertBtn.disabled = false;
-				btnLabel.textContent = 'Convert to MP3';
+				btnLabel.textContent = 'حوّل إلى MP3';
 				btnSpinner.classList.add('hidden');
 			}
 		}
@@ -125,7 +149,7 @@
 			const text = textInput.value.trim();
 			const lang = langSelect.value;
 			if (!text) {
-				showAlert('Please enter some text to convert.');
+				showAlert('يرجى إدخال نص للتحويل.');
 				return;
 			}
 
@@ -139,19 +163,17 @@
 
 				const data = await res.json();
 				if (!res.ok || !data.success) {
-					throw new Error(data.error || 'Failed to convert text.');
+					throw new Error(data.error || 'فشل تحويل النص.');
 				}
 
-				// Stream URL for inline playback
 				const streamUrl = data.stream_url || (data.url || '').replace('/download/', '/stream/');
 				player.src = streamUrl;
 				playerWrap.classList.remove('hidden');
 
-				// Download link
 				downloadLink.href = data.url;
 				downloadLink.classList.remove('hidden');
 			} catch (err) {
-				showAlert(err.message || 'Something went wrong.');
+				showAlert(err.message || 'حدث خطأ غير متوقع.');
 			} finally {
 				setLoading(false);
 			}
