@@ -3,7 +3,6 @@ import time
 import uuid
 from flask import Flask, request, jsonify, render_template, send_from_directory, url_for, abort
 from gtts import gTTS
-from mutagen.mp3 import MP3
 
 # Flask application setup
 app = Flask(__name__)
@@ -15,8 +14,6 @@ os.makedirs(AUDIO_DIR, exist_ok=True)
 # Configuration
 MAX_TEXT_LENGTH = int(os.environ.get('MAX_TEXT_LENGTH', 5000))
 CLEANUP_MAX_AGE_SECONDS = int(os.environ.get('CLEANUP_MAX_AGE_SECONDS', 3600))  # 1 hour by default
-GTTS_TLD = os.environ.get('GTTS_TLD', 'com')
-MIN_DURATION_SECONDS = float(os.environ.get('MIN_DURATION_SECONDS', 0.3))
 
 
 def clean_old_files() -> None:
@@ -50,12 +47,6 @@ def index():
 	return render_template('index.html')
 
 
-@app.get('/tools')
-def tools():
-	clean_old_files()
-	return render_template('tools.html')
-
-
 @app.post('/api/convert')
 def convert_text_to_mp3():
 	clean_old_files()
@@ -86,26 +77,8 @@ def convert_text_to_mp3():
 	file_path = os.path.join(AUDIO_DIR, filename)
 
 	try:
-		tts = gTTS(text=text, lang=lang, tld=GTTS_TLD)
+		tts = gTTS(text=text, lang=lang)
 		tts.save(file_path)
-		# Validate duration
-		try:
-			audio = MP3(file_path)
-			duration_seconds = float(getattr(audio.info, 'length', 0.0) or 0.0)
-			if duration_seconds < MIN_DURATION_SECONDS:
-				# Treat as failure
-				os.remove(file_path)
-				return jsonify({
-					'success': False,
-					'error': 'Generated audio appears to be empty. Please try again, use shorter text, or check your network connectivity.'
-				}), 502
-		except Exception:
-			# If we cannot parse, at least ensure file is not empty
-			if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
-				return jsonify({
-					'success': False,
-					'error': 'Failed to validate generated audio.'
-				}), 502
 	except Exception as exc:
 		# Clean up partial file if created
 		try:
@@ -118,9 +91,8 @@ def convert_text_to_mp3():
 			'error': f'Failed to generate audio: {str(exc)}'
 		}), 500
 
-	# Use relative URLs so it works from any client/host
-	download_url = url_for('download_file', filename=filename)
-	stream_url = url_for('stream_file', filename=filename)
+	download_url = url_for('download_file', filename=filename, _external=True)
+	stream_url = url_for('stream_file', filename=filename, _external=True)
 	return jsonify({
 		'success': True,
 		'filename': filename,
