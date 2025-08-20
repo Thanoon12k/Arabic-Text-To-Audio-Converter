@@ -3,45 +3,44 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>أدوات أخرى — قريباً</title>
+	<title>أدوات أخرى</title>
 	<script src="https://cdn.tailwindcss.com"></script>
-	<script>
-		tailwind.config = {
-			theme: {
-				extend: {
-					colors: {
-						tigris: '#1b4965',
-						euphrates: '#62b6cb',
-						sand: '#e9c46a'
-					}
-				}
-			}
-		}
-	</script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-tigris via-euphrates to-sand text-white">
+<body class="min-h-screen bg-gradient-to-br from-[#1b4965] via-[#62b6cb] to-[#e9c46a] text-white">
 	<div class="min-h-screen flex items-center justify-center p-6">
-		<div class="w-full max-w-4xl">
+		<div class="w-full max-w-5xl">
 			<div class="backdrop-blur-sm bg-white/10 rounded-2xl shadow-2xl p-8 border border-white/20">
 				<div class="flex items-center justify-between">
-					<h1 class="text-3xl sm:text-4xl font-extrabold">أدوات أخرى</h1>
-					<a href="/" class="inline-flex items-center gap-2 rounded-xl bg-white/90 hover:bg-white text-tigris font-semibold px-4 py-2 shadow ring-1 ring-black/5 transition">العودة</a>
+					<h1 class="text-3xl sm:text-4xl font-extrabold">أدوات المنصة</h1>
+					<a href="/" class="inline-flex items-center gap-2 rounded-xl bg-white/90 hover:bg-white text-[#1b4965] font-semibold px-4 py-2 shadow ring-1 ring-black/5 transition">العودة</a>
 				</div>
-				<p class="mt-2 text-white/85">قريباً ستتوفر هنا مجموعة من الأدوات المفيدة. تم تصميم المنصة للتوسع بسهولة لإضافة +30 أداة مستقبلًا.</p>
+				<p class="mt-2 text-white/85">مجموعة أدوات متعددة للتحويل والمعالجة. سيتم إضافة المزيد تباعًا.</p>
 
 				<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-					<div class="rounded-xl bg-white/10 border border-white/20 p-5">
-						<div class="text-xl font-semibold">قريباً</div>
-						<div class="text-white/80">واجهة لأدوات متعددة</div>
-					</div>
-					<div class="rounded-xl bg-white/10 border border-white/20 p-5">
-						<div class="text-xl font-semibold">قريباً</div>
-						<div class="text-white/80">تحويلات وصيغ مختلفة</div>
-					</div>
-					<div class="rounded-xl bg-white/10 border border-white/20 p-5">
-						<div class="text-xl font-semibold">قريباً</div>
-						<div class="text-white/80">تحسين الأداء والسرعة</div>
-					</div>
+					<a href="/tools/images-to-pdf" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">الصور إلى PDF</div>
+						<div class="text-white/80">ارفع عدة صور واجمعها في ملف PDF واحد.</div>
+					</a>
+					<a href="/tools/pdf-to-images" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">PDF إلى صور</div>
+						<div class="text-white/80">حوّل كل صفحة إلى صورة منفصلة بالجودة التي تريدها.</div>
+					</a>
+					<a href="/tools/pdf-to-office" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">PDF إلى أوفيس</div>
+						<div class="text-white/80">تحويل PDF إلى DOCX, XLSX, أو PPTX.</div>
+					</a>
+					<a href="/tools/office-to-mp3" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">أوفيس إلى MP3</div>
+						<div class="text-white/80">اقرأ محتوى المستندات صوتيًا واحفظه كملف MP3.</div>
+					</a>
+					<a href="/tools/video-to-audio" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">الفيديو إلى صوت</div>
+						<div class="text-white/80">استخرج الصوت من الفيديو بصيغ وجودات مختلفة.</div>
+					</a>
+					<a href="/tools/background-remover" class="rounded-xl bg-white/10 border border-white/20 p-5 hover:bg-white/20 transition block">
+						<div class="text-xl font-semibold">إزالة خلفية الصورة</div>
+						<div class="text-white/80">احصل على صورة بخلفية شفافة تلقائيًا.</div>
+					</a>
 				</div>
 			</div>
 		</div>

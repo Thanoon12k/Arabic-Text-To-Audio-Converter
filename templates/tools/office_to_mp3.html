@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>تحويل مستندات أوفيس إلى MP3</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#1b4965] via-[#62b6cb] to-[#e9c46a] text-white">
+	<div class="max-w-4xl mx-auto p-6">
+		<div class="flex items-center justify-between">
+			<h1 class="text-3xl font-extrabold">تحويل أوفيس إلى MP3</h1>
+			<a href="/tools" class="rounded-lg bg-white/90 text-[#1b4965] px-4 py-2 font-semibold">العودة للأدوات</a>
+		</div>
+
+		<div class="mt-6 bg-white/10 border border-white/20 rounded-2xl p-6">
+			<form id="form" class="space-y-4" onsubmit="return false;">
+				<div>
+					<label class="block mb-1">رفع ملف DOCX أو PPTX</label>
+					<input id="file" type="file" accept=".docx,.pptx" class="block w-full text-black rounded" />
+				</div>
+				<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+					<div>
+						<label class="block mb-1">اللغة</label>
+						<select id="lang" class="w-full rounded px-3 py-2 text-black">
+							<option value="ar" selected>العربية</option>
+							<option value="en">الإنجليزية</option>
+						</select>
+					</div>
+					<div>
+						<label class="block mb-1">النطاق (TLD)</label>
+						<input id="tld" type="text" class="w-full rounded px-3 py-2 text-black" placeholder="com, com.sa, com.eg" />
+					</div>
+					<div>
+						<label class="block mb-1">السرعة</label>
+						<select id="speed" class="w-full rounded px-3 py-2 text-black">
+							<option value="normal" selected>عادية</option>
+							<option value="slow">بطيئة</option>
+						</select>
+					</div>
+				</div>
+				<button id="submit" class="rounded-xl bg-[#e9c46a] text-[#7a3b2e] font-bold px-6 py-3">تحويل إلى MP3</button>
+			</form>
+
+			<div id="player-wrap" class="mt-4 hidden">
+				<audio id="player" controls class="w-full"></audio>
+			</div>
+			<div id="result" class="mt-2 hidden">
+				<a id="download" class="rounded-xl bg-white text-[#1b4965] font-semibold px-4 py-2" href="#">تنزيل MP3</a>
+			</div>
+			<div id="alert" class="mt-4 hidden rounded bg-red-500/20 border border-red-400/40 p-3"></div>
+		</div>
+	</div>
+
+	<script>
+		const file = document.getElementById('file');
+		const lang = document.getElementById('lang');
+		const tld = document.getElementById('tld');
+		const speed = document.getElementById('speed');
+		const player = document.getElementById('player');
+		const playerWrap = document.getElementById('player-wrap');
+		const result = document.getElementById('result');
+		const download = document.getElementById('download');
+		const alertBox = document.getElementById('alert');
+		function showError(m){ alertBox.textContent=m; alertBox.classList.remove('hidden'); }
+		function hideError(){ alertBox.classList.add('hidden'); alertBox.textContent=''; }
+		document.getElementById('submit').addEventListener('click', async () => {
+			hideError(); result.classList.add('hidden'); playerWrap.classList.add('hidden'); player.removeAttribute('src'); player.load();
+			const fd = new FormData();
+			if (file.files[0]) fd.append('file', file.files[0]);
+			fd.append('lang', lang.value);
+			fd.append('tld', tld.value.trim());
+			fd.append('speed', speed.value);
+			try {
+				const res = await fetch('/api/office-to-mp3', { method:'POST', body: fd });
+				const data = await res.json();
+				if(!res.ok || !data.success) throw new Error(data.error||'فشل التحويل');
+				player.src = data.stream_url; playerWrap.classList.remove('hidden');
+				download.href = data.url; result.classList.remove('hidden');
+			} catch(e){ showError(e.message); }
+		});
+	</script>
+</body>
+</html>
